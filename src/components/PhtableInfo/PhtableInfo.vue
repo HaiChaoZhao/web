@@ -2,7 +2,7 @@
   <div>
     <div class="header-search" >
         <el-input
-        placeholder="编号或户主姓名"
+        placeholder="编号"
         prefix-icon="el-icon-search"
         clearable
         size="mini"
@@ -11,31 +11,23 @@
         <el-button type="primary" size="mini" >查询</el-button>
     </div>
     <el-table :data="tableData" max-height="450" style="font-size: 0.22rem;">
-      <el-table-column prop="number" label="贫困户编号" width="60" fixed>
+      <el-table-column prop="number" label="贫困户编号"  fixed>
       </el-table-column>
-      <el-table-column prop="name" label="贫困户户主姓名" width="76" fixed>
+      <el-table-column prop="name" label="姓名"  fixed>
       </el-table-column>
-      <el-table-column prop="causeOfPoverty" label="致贫原因">
+      <el-table-column prop="relationship" label="与户主关系">
       </el-table-column>
-      <el-table-column prop="helpMeasures" label="帮扶措施">
+      <el-table-column prop="nationality" label="民族">
       </el-table-column>
-      <el-table-column prop="helpMeasuresAgency" label="帮扶措施实行机构" width="75">
+      <el-table-column prop="censusCategory" label="户籍类别">
       </el-table-column>
-      <el-table-column prop="helpMeasuresPlan" label="帮扶计划">
+      <el-table-column prop="IDNumber" label="身份证号">
       </el-table-column>
-      <el-table-column prop="helpMeasuresPlanYear" label="帮扶计划年份" width="75">
+      <el-table-column prop="censusAddr" label="户籍所在地" >
       </el-table-column>
-      <el-table-column prop="responsibleAndAgency" label="责任人及所属机构" width="110">
+      <el-table-column prop="phone" label="联系电话" >
       </el-table-column>
-      <el-table-column prop="progressInfo" label="进展情况">
-      </el-table-column>
-      <el-table-column prop="outOfPoverty" label="是否脱贫">
-      </el-table-column>
-      <el-table-column prop="outOfPovertyDate" label="脱贫时间">
-      </el-table-column>
-      <el-table-column prop="returnToPoverty" label="是否返贫">
-      </el-table-column>
-      <el-table-column prop="returnToPovertyDate" label="返贫时间">
+      <el-table-column prop="Address" label="居住地址">
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
@@ -61,7 +53,7 @@
 <script>
   import axois from 'axios'
   export default {
-    name: "Phtable",
+    name: "PhtableInfo",
     data() {
       return {
         tableData: [],
@@ -71,7 +63,7 @@
     },
     methods: {
       getPhtableList(){
-          axois.get('/api/phtable.json')
+          axois.get('/api/phtableInfo.json')
           .then(this.hanldeGetPhtableListSucc)
       },
       hanldeGetPhtableListSucc(res){

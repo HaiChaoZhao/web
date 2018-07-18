@@ -13,7 +13,9 @@
                 主表
               </el-menu-item>
               </router-link>
-              <el-menu-item index="1-2">贫困户信息表</el-menu-item>
+              <router-link to="/phtableinfo">
+                <el-menu-item index="1-2">贫困户信息表</el-menu-item>
+              </router-link>
             </el-menu-item-group>
             <el-menu-item-group title="分组2">
               <el-menu-item index="1-3">表格3</el-menu-item>

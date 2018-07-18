@@ -1,0 +1,18 @@
+{
+    "RetCode": "1",
+    "DataRows": [
+      {
+        "number" : "1",
+        "date": "2016-05-02",
+        "name": "axios",
+        "relationship": "户主本人",
+        "nationality": "汉族",
+        "censusCategory": "农村",
+        "IDNumber": "450324199807220736",
+        "censusAddr": "广西省桂林市绍水镇",
+        "phone": "15295824573",
+        "Address": "河北省保定市五四路180号河北大学"
+      }
+    ]
+  }
+  
