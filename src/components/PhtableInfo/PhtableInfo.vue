@@ -10,7 +10,7 @@
         </el-input>
         <el-button type="primary" size="mini" >查询</el-button>
     </div>
-    <el-table :data="tableData" max-height="450" style="font-size: 0.22rem;">
+    <el-table :data="tableData" stripe max-height="450" v-loading="loading" style="font-size: 0.22rem;">
       <el-table-column prop="number" label="贫困户编号"  fixed>
       </el-table-column>
       <el-table-column prop="name" label="姓名"  fixed>
@@ -56,6 +56,7 @@
     name: "PhtableInfo",
     data() {
       return {
+        loading: true,
         tableData: [],
         serachInput:'',
         currentPage:1
@@ -67,6 +68,7 @@
           .then(this.hanldeGetPhtableListSucc)
       },
       hanldeGetPhtableListSucc(res){
+        this.loading=false
           const resp=res.data
           if(resp.RetCode=='1'&&resp.DataRows){
               const data = resp.DataRows

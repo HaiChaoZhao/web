@@ -2,12 +2,12 @@
   <div id="app">
     <el-container style="height: 615px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1']" :default-active="'1-1'" >
+        <el-menu :default-openeds="['1']" :default-active="getIndex" >
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-message"></i>导航一</template>
+              <i class="el-icon-message"></i>导航</template>
             <el-menu-item-group>
-              <template slot="title">分组一</template>
+              <template slot="title">表格</template>
               <router-link to="/" >
               <el-menu-item index="1-1"  >
                 主表
@@ -17,12 +17,12 @@
                 <el-menu-item index="1-2">贫困户信息表</el-menu-item>
               </router-link>
             </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">表格3</el-menu-item>
+            <el-menu-item-group title="录入表单">
+              <el-menu-item index="1-3">主表录入</el-menu-item>
             </el-menu-item-group>
             <el-submenu index="1-4">
-              <template slot="title">表格4</template>
-              <el-menu-item index="1-4-1">表格4-1</el-menu-item>
+              <template slot="title">贫困户信息表录入</template>
+              <el-menu-item index="1-4-1">录入</el-menu-item>
             </el-submenu>
           </el-submenu>
         </el-menu>
@@ -58,7 +58,21 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  data(){
+    return {
+      pathToIndex:{
+        '/':'1-1',
+        '/phtableinfo' : '1-2'
+      }
+    }
+  },
+  computed:{
+    getIndex(){
+      const path = this.$route.path
+      return this.pathToIndex[path]
+    }
+  }
 };
 </script>
 
