@@ -2,7 +2,7 @@
   <div id="app">
     <el-container style="height: 615px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1']" :default-active="getIndex" >
+        <el-menu :default-openeds="['1','1-4']" :default-active="getIndex" >
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-message"></i>导航</template>
@@ -18,11 +18,15 @@
               </router-link>
             </el-menu-item-group>
             <el-menu-item-group title="录入表单">
-              <el-menu-item index="1-3">主表录入</el-menu-item>
+              <router-link to="/phtableform">
+                <el-menu-item index="1-3">主表录入</el-menu-item>
+              </router-link>
             </el-menu-item-group>
             <el-submenu index="1-4">
               <template slot="title">贫困户信息表录入</template>
-              <el-menu-item index="1-4-1">录入</el-menu-item>
+              <router-link to="/phtableinfoform">
+                <el-menu-item index="1-4-1">录入</el-menu-item>
+              </router-link>
             </el-submenu>
           </el-submenu>
         </el-menu>
@@ -40,15 +44,9 @@
           <span>王小虎</span>
         </el-header>
         <el-main>
-          <router-view/>
-          <!-- <el-table :data="tableData">
-            <el-table-column prop="date" label="日期" width="140">
-            </el-table-column>
-            <el-table-column prop="name" label="姓名" width="120">
-            </el-table-column>
-            <el-table-column prop="address" label="地址">
-            </el-table-column>
-          </el-table> -->
+          <keep-alive>
+            <router-view/>
+          </keep-alive>
         </el-main>
       </el-container>
     </el-container>
@@ -63,7 +61,9 @@ export default {
     return {
       pathToIndex:{
         '/':'1-1',
-        '/phtableinfo' : '1-2'
+        '/phtableinfo' : '1-2',
+        '/phtableform' : '1-3',
+        '/phtableinfoform' : '1-4-1'
       }
     }
   },
