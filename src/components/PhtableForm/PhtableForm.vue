@@ -135,11 +135,6 @@
     },
     mounted() {}
   }
-  /*
-  局长(查看权限)
-  管理员(助手,查看写入)
-   */
-
 </script>
 
 <style lang="stylus" scoped>

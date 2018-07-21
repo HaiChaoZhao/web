@@ -19,3 +19,7 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+# 局长(查看权限)
+# 管理员(助手,查看写入,添加责任人)
+# 责任人(查与填写自己的负责的贫困户)
