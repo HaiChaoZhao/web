@@ -9,9 +9,9 @@
           <el-option v-for="(item,index) of causeOfPovertyOptions" :key="index" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
-        <el-form-item prop="helpMeasures" label="帮扶措施" multiple required >
+        <el-form-item prop="helpMeasures" label="帮扶措施"  required >
           <!-- 多选 -->
-            <el-select placeholder="选择帮扶措施" v-model="ruleForm.helpMeasures" >
+            <el-select placeholder="选择帮扶措施" multiple v-model="ruleForm.helpMeasures" >
               <el-option v-for="(item,index) of helpMeasuresOptions" :key="index" :label="item" :value="item"></el-option>
             </el-select>
         </el-form-item>
