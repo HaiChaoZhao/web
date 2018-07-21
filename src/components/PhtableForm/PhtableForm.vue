@@ -9,13 +9,15 @@
           <el-option v-for="(item,index) of causeOfPovertyOptions" :key="index" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
-        <el-form-item prop="helpMeasures" label="帮扶措施" required >
+        <el-form-item prop="helpMeasures" label="帮扶措施" multiple required >
+          <!-- 多选 -->
             <el-select placeholder="选择帮扶措施" v-model="ruleForm.helpMeasures" >
               <el-option v-for="(item,index) of helpMeasuresOptions" :key="index" :label="item" :value="item"></el-option>
             </el-select>
         </el-form-item>
       <el-form-item prop="helpMeasuresAgency" label="帮扶措施实行机构" >
-        <el-select  placeholder="选择帮扶措施实行机构" v-model="ruleForm.helpMeasuresAgency" >
+        <!-- 多选 -->
+        <el-select  placeholder="选择帮扶措施实行机构" multiple v-model="ruleForm.helpMeasuresAgency" >
           <el-option v-for="(item,index) of agencyOptions" :key="index" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
@@ -133,6 +135,10 @@
     },
     mounted() {}
   }
+  /*
+  局长(查看权限)
+  管理员(助手,查看写入)
+   */
 
 </script>
 
