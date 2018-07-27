@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home/Home'
+import Login from '@/components/Login/Login'
 import Phtable from '@/components/Phtable/Phtable'
 import PhtableInfo from '@/components/PhtableInfo/PhtableInfo'
 import PhtableForm from '@/components/PhtableForm/PhtableForm'
@@ -36,6 +37,11 @@ export default new Router({
           component: PhtableInfoForm
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
     // {
     //   path: '/phtableinfo',
