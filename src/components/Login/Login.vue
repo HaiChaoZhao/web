@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "Login",
   data() {
@@ -43,7 +44,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          axios.post('/api/user/login')
+               .then(loginHandle)
         } else {
           console.log("error submit!!");
           return false;
@@ -52,6 +54,12 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    loginHandle(res){
+      this.$message({
+        type:'success',
+        message:res.RetVal
+      })
     }
   }
 };
