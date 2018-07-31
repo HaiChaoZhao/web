@@ -11,7 +11,9 @@
         <el-button type="primary" size="mini" >查询</el-button>
     </div>
     <el-table :data="tableData" stripe max-height="450" v-loading="loading" style="font-size: 0.22rem;">
-      <el-table-column prop="number" label="贫困户编号"  fixed>
+      <el-table-column type="index" label="序号" width="25" fixed>
+      </el-table-column>
+      <el-table-column prop="belong.name" label="贫困户主名"  fixed>
       </el-table-column>
       <el-table-column prop="name" label="姓名"  fixed>
       </el-table-column>
@@ -44,7 +46,7 @@
           :page-sizes="[10, 20, 50, 100]"
           :page-size="10"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400">
+          :total="totalRows">
           </el-pagination>
     </div>
   </div>
@@ -59,12 +61,14 @@
         loading: true,
         tableData: [],
         serachInput:'',
-        currentPage:1
+        currentPage:1,
+        totalRows: 0,
+        pagesize: 10
       }
     },
     methods: {
       getPhtableList(){
-          axois.get('/api/phtableInfo.json')
+          axois.get(`/api/phr/${this.currentPage}-${this.pagesize}`)
           .then(this.hanldeGetPhtableListSucc)
       },
       hanldeGetPhtableListSucc(res){
@@ -73,6 +77,7 @@
           if(resp.RetCode=='1'&&resp.DataRows){
               const data = resp.DataRows
               this.tableData=data
+              this.totalRows = resp.allCount;
           }
       },
       handleClick(row) {
@@ -80,9 +85,13 @@
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
+        this.pagesize = val;
+        this.getPhtableList();
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+        this.currentPage = val;
+        this.getPhtableList();
       }
     },
     mounted(){

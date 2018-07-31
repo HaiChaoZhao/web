@@ -32,15 +32,13 @@
     </el-aside>
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
-        <el-dropdown>
+        <el-dropdown @command="handleCommand" >
           <i class="el-icon-setting" style="margin-right: 15px"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>查看</el-dropdown-item>
-            <el-dropdown-item>新增</el-dropdown-item>
-            <el-dropdown-item>删除</el-dropdown-item>
+            <el-dropdown-item command="logout" >登出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span>王小虎</span>
+        <span>{{user.username}}</span>
       </el-header>
       <el-main>
         <keep-alive>
@@ -52,6 +50,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "Home",
   data() {
@@ -61,14 +60,35 @@ export default {
         "/phtableinfo": "1-2",
         "/phtableform": "1-3",
         "/phtableinfoform": "1-4-1"
-      }
+      },
+      user:{}
     };
+  },
+  methods:{
+    handleCommand(command) {
+        if(command=='logout') this.logout()
+    },
+    logout(){
+      axios.get('/api/users/logout')
+           .then(this.logoutHandle)
+    },
+    logoutHandle(resp){
+      localStorage.removeItem('user')
+      this.$router.push('/login')
+    }
+  },
+  created(){
+    try {
+      this.user = JSON.parse(localStorage.user)
+    } catch (error) {
+      
+    }
   },
   computed: {
     getIndex() {
       const path = this.$route.path;
       return this.pathToIndex[path];
-    }
+    },
   }
 };
 </script>

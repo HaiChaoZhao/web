@@ -44,8 +44,9 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          axios.post('/api/user/login')
-               .then(loginHandle)
+          const data = this.ruleForm;
+          axios.post('/api/users/login',{email:data.email,password:data.password})
+               .then(this.loginHandle)
         } else {
           console.log("error submit!!");
           return false;
@@ -55,12 +56,34 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    loginHandle(res){
-      this.$message({
-        type:'success',
-        message:res.RetVal
-      })
+    loginHandle(resp){
+      const res = resp.data;
+      if(res.RetCode=='1'){
+        this.$message({
+          type:'success',
+          message:"成功登陆"
+        })
+        localStorage.user = JSON.stringify(res.user) 
+        this.$router.push('/')
+      }else{
+        this.$message({
+          type:'error',
+          message:res.RetVal
+        })
+      }
+    },
+    checkLoginStatus(){
+      axios.get('/api/users').then(this.alredyLogin)
+    },
+    alredyLogin(resp){
+      const res = resp.data;
+      if(res.RetCode=='1'){
+        this.$router.push('/');
+      }
     }
+  },
+  created(){
+    this.checkLoginStatus()
   }
 };
 </script>

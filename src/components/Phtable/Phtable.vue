@@ -2,7 +2,7 @@
   <div>
     <div class="header-search" >
         <el-input
-        placeholder="编号或户主姓名"
+        placeholder="户主姓名"
         prefix-icon="el-icon-search"
         clearable
         size="mini"
@@ -11,7 +11,7 @@
         <el-button type="primary" size="mini" >查询</el-button>
     </div>
     <el-table :data="tableData" stripe max-height="450" v-loading="loading" style="font-size: 0.22rem;">
-      <el-table-column prop="number" label="贫困户编号" width="60" fixed>
+      <el-table-column type="index" label="序号" width="20" fixed>
       </el-table-column>
       <el-table-column prop="name" label="贫困户户主姓名" width="76" fixed>
       </el-table-column>
@@ -25,7 +25,10 @@
       </el-table-column>
       <el-table-column prop="helpMeasuresPlanYear" label="帮扶计划年份" width="75">
       </el-table-column>
-      <el-table-column prop="responsibleAndAgency" label="责任人及所属机构" width="110">
+      <el-table-column  label="责任人及所属机构" width="110">
+        <template slot-scope="scope">
+          {{ scope.row.responsible.username }}/{{ scope.row.responsible.agency }}
+        </template>
       </el-table-column>
       <el-table-column prop="progressInfo" label="进展情况">
       </el-table-column>
@@ -52,58 +55,69 @@
           :page-sizes="[10, 20, 50, 100]"
           :page-size="10"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400">
+          :total="totalRows">
           </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
-  import axois from 'axios'
-  export default {
-    name: "Phtable",
-    data() {
-      return {
-        loading: true,
-        tableData: [],
-        serachInput:'',
-        currentPage:1
+import axois from "axios";
+export default {
+  name: "Phtable",
+  data() {
+    return {
+      loading: true,
+      tableData: [],
+      serachInput: "",
+      currentPage: 1,
+      totalRows: 0,
+      pagesize: 10
+    };
+  },
+  methods: {
+    getPhtableList() {
+      axois
+        .get(`/api/phs/${this.currentPage}-${this.pagesize}`)
+        .then(this.hanldeGetPhtableListSucc);
+    },
+    hanldeGetPhtableListSucc(res) {
+      const resp = res.data;
+      if (resp.RetCode == "1" && resp.DataRows) {
+        this.loading = false;
+        const data = resp.DataRows;
+        this.tableData = data;
+        this.totalRows = resp.allCount;
       }
     },
-    methods: {
-      getPhtableList(){
-          axois.get('/api/phtable.json')
-          .then(this.hanldeGetPhtableListSucc)
-      },
-      hanldeGetPhtableListSucc(res){
-          const resp=res.data
-          if(resp.RetCode=='1'&&resp.DataRows){
-              this.loading=false
-              const data = resp.DataRows
-              this.tableData=data
-          }
-      },
-      handleClick(row) {
-        console.log(row);
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      }
+    handleClick(row) {
+      console.log(row);
     },
-    mounted(){
-        this.getPhtableList();
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pagesize = val;
+      this.getPhtableList();
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.getPhtableList();
     }
+  },
+  mounted() {
+    this.getPhtableList();
   }
-
+};
 </script>
 
 <style lang="stylus" scoped>
-.header-search
-  .el-input--mini
-    width : 3rem
-.pagination-wrapper
-  text-align : center
+.header-search {
+  .el-input--mini {
+    width: 3rem;
+  }
+}
+
+.pagination-wrapper {
+  text-align: center;
+}
 </style>
