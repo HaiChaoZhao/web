@@ -1,13 +1,13 @@
 <template>
   <div class="form-wrapper" >
     <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" size="mini" label-width="125px" >
-      <el-form-item label="贫困户编号" prop="number" >
+      <el-form-item label="贫困户编号" prop="belong" >
           <el-select
-            v-model="ruleForm.number"
+            v-model="ruleForm.belong"
             filterable
             remote
             reserve-keyword
-            placeholder="输入编号搜索"
+            placeholder="输入户主姓名搜索"
             :remote-method="remoteMethod"
             :loading="loading">
             <el-option
@@ -83,7 +83,7 @@
       return {
         loading: false,
         ruleForm: {
-          number:'',
+          belong:'',
           name: '',
           relationship:'',
           nationality:'',

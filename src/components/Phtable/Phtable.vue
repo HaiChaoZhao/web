@@ -79,33 +79,33 @@ export default {
     getPhtableList() {
       axois
         .get(`/api/phs/${this.currentPage}-${this.pagesize}`)
-        .then(this.hanldeGetPhtableListSucc);
+        .then(this.hanldeGetPhtableListSucc)
     },
     hanldeGetPhtableListSucc(res) {
-      const resp = res.data;
+      const resp = res.data
       if (resp.RetCode == "1" && resp.DataRows) {
-        this.loading = false;
-        const data = resp.DataRows;
-        this.tableData = data;
-        this.totalRows = resp.allCount;
+        this.loading = false
+        const data = resp.DataRows
+        this.tableData = data
+        this.totalRows = resp.allCount
       }
     },
     handleClick(row) {
-      console.log(row);
+      console.log(row)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.pagesize = val;
-      this.getPhtableList();
+      console.log(`每页 ${val} 条`)
+      this.pagesize = val
+      this.getPhtableList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.currentPage = val;
-      this.getPhtableList();
+      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.getPhtableList()
     }
   },
   mounted() {
-    this.getPhtableList();
+    this.getPhtableList()
   }
 };
 </script>

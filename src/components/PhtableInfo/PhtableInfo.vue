@@ -23,7 +23,7 @@
       </el-table-column>
       <el-table-column prop="censusCategory" label="户籍类别">
       </el-table-column>
-      <el-table-column prop="IDNumber" label="身份证号">
+      <el-table-column prop="IDNumber" width="135" label="身份证号">
       </el-table-column>
       <el-table-column prop="censusAddr" label="户籍所在地" >
       </el-table-column>
