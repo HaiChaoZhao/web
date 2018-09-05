@@ -11,12 +11,12 @@
             :remote-method="remoteMethod"
             :loading="loading">
             <el-option
-            v-for="item of numberList"
-            :key="item.value"
-            :label="item.value"
-            :value="item.value">
-                <span style="float: left">{{ item.label }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+            v-for="item in numberList"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id">
+                <span style="float: left">{{ item.name }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item._id }}</span>
             </el-option>
           </el-select>
       </el-form-item>
@@ -89,9 +89,9 @@
           nationality:'',
           censusCategory:'',
           idNumber:'',
-          censusAddr:'',
+          censusAddr:[],
           phone:'',
-          address:''
+          address:[]
         },
         rules:{
           name:[
@@ -99,16 +99,6 @@
           ]
         },
         numberList:[],
-        remoteNumberList:[
-            {
-                label:'赵海朝',
-                value:'1'
-            },
-            {
-                label:'赵海x',
-                value:'12'
-            }
-        ],
         relationshipOptions:["户主本人","父亲","母亲"],
         nationalityOptions:["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族","瑶族","白族","土家族",
                "哈尼族","哈萨克族","傣族","黎族","傈僳族","佤族","畲族","高山族","拉祜族","水族","东乡族","纳西族","景颇族","柯尔克孜族",
@@ -133,30 +123,72 @@
       remoteMethod(query) {
           if (query !== '') {
               this.loading = true;
-              setTimeout(() => {
-                  this.loading = false;
-                  this.numberList = this.remoteNumberList.filter(item => {
-                      return item.value.indexOf(query) > -1;
-                });
-          }, 500);
+              axois.get('/api/phs/search/'+query)
+                   .then(this.handleRemoteMethod)
         } else {
           this.numberList = [];
         }
       },
+      handleRemoteMethod(resp){
+        const res = resp.data
+        this.loading = false
+        if(res.RetCode=='1'&&res.DataRows){
+          this.numberList = res.DataRows
+        }else if(res.RetCode=='1'){
+          this.numberList =[]
+        }else{
+          this.numberList =[]
+          this.$message({
+            type:'error',
+            message:'获取列表失败,'+res.RetVal
+          })
+        }
+        
+      },
       hanldePostPhtableFormSucc(res) {
+        this.loading.close()
         const resp = res.data
         if (resp.RetCode == '1' && resp.DataRows) {
-          this.loading = false
-          const data = resp.DataRows
-          this.tableData = data
+          this.resetForm('ruleForm')
+          this.$message({
+            type:'success',
+            message:"添加成功"
+          })
+        }else{
+          this.$message({
+            type:'error',
+            message:"提交失败,"+resp.RetVal
+          })
         }
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+             this.loading = this.$loading({
+              lock: true,
+              text: 'Loading',
+              spinner: 'el-icon-loading',
+              background: 'rgba(0, 0, 0, 0.7)'
+            })
+            axois.post('/api/phr/',
+            {
+              	name: this.ruleForm.name,
+                relationship: this.ruleForm.relationship ,
+                nationality: this.ruleForm.nationality ,
+                censusCategory: this.ruleForm.censusCategory ,
+                IDNumber: this.ruleForm.idNumber ,
+                censusAddr: this.ruleForm.censusAddr.join(''),
+                phone: this.ruleForm.phone,
+                Address: this.ruleForm.address.join(''),
+                belong: this.ruleForm.belong
+            }).then(this.hanldePostPhtableFormSucc).catch(function (error) {
+              console.log(error);
+            });
           } else {
-            console.log('error submit!!');
+            this.$message({
+            type:'error',
+            message:"请检查选项输入是否有误"
+          })
             return false;
           }
         });

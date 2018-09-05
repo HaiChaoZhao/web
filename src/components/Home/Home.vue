@@ -38,7 +38,7 @@
             <el-dropdown-item command="logout" >登出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span>{{user.username}}</span>
+        <span>{{user.username?user.username:"尚未登录"}}</span>
       </el-header>
       <el-main>
         <keep-alive>
@@ -68,6 +68,22 @@ export default {
     handleCommand(command) {
         if(command=='logout') this.logout()
     },
+    checkLogin(){
+      axios.get('api/users/login')
+           .then(this.checkLoginHandle)
+    },
+    checkLoginHandle(resp){
+      const res = resp.data
+      if (res.RetCode == "0" ) {
+        this.$router.push('/login')
+      } else{
+        try {
+          this.user = JSON.parse(localStorage.user)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
     logout(){
       axios.get('/api/users/logout')
            .then(this.logoutHandle)
@@ -78,11 +94,7 @@ export default {
     }
   },
   created(){
-    try {
-      this.user = JSON.parse(localStorage.user)
-    } catch (error) {
-      
-    }
+      this.checkLogin()
   },
   computed: {
     getIndex() {
