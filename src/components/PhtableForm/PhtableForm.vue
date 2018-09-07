@@ -10,7 +10,7 @@
         </el-select>
       </el-form-item>
         <el-form-item prop="helpMeasures" label="帮扶措施"  required >
-          <!-- 多选 -->
+          <!-- 帮扶措施与实行机构合并 -->
             <el-select placeholder="选择帮扶措施" multiple v-model="ruleForm.helpMeasures" >
               <el-option v-for="(item,index) of helpMeasuresOptions" :key="index" :label="item" :value="item"></el-option>
             </el-select>
@@ -92,8 +92,8 @@
         ruleForm: {
           name: '',
           causeOfPoverty: [],
-          helpMeasures: '',
-          helpMeasuresAgency: '',
+          helpMeasures: [],
+          helpMeasuresAgency: [],
           helpMeasuresPlan: '',
           helpMeasuresPlanYear: "",
           responsible:'',
@@ -128,7 +128,7 @@
           this.ruleForm[SelectName+"Date"]=""
           this.$data['show'+SelectName] = 1
         }else{
-          this.ruleForm[SelectName+"Date"]="无"
+          this.ruleForm[SelectName+"Date"]=""
           this.$data['show'+SelectName] = 0
         }
         

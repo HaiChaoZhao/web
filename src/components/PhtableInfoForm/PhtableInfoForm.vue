@@ -177,9 +177,9 @@
                 nationality: this.ruleForm.nationality ,
                 censusCategory: this.ruleForm.censusCategory ,
                 IDNumber: this.ruleForm.idNumber ,
-                censusAddr: this.ruleForm.censusAddr.join(''),
+                censusAddr: this.ruleForm.censusAddr.join('-'),
                 phone: this.ruleForm.phone,
-                Address: this.ruleForm.address.join(''),
+                Address: this.ruleForm.address.join('-'),
                 belong: this.ruleForm.belong
             }).then(this.hanldePostPhtableFormSucc).catch(function (error) {
               console.log(error);
